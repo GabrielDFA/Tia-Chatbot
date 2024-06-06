@@ -1,8 +1,12 @@
+import os
 import time
+import dotenv
 from openai import OpenAI
 
-api_key =  "sk-proj-xYb4Av9hSrUqNxoDZxnFT3BlbkFJzPkU2kwcQ4gtA9l6m7fu"
-assistant_id = "asst_4JiYuAXSAjuSGxWr2pPaDrhs"
+dotenv.load_dotenv()
+
+api_key = os.getenv("API_KEY")
+assistant_id = os.getenv("ASSISTANT_ID")
 
 def load_openai_client_and_assistant():
     client = OpenAI(api_key=api_key)
