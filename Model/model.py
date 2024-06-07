@@ -2,8 +2,8 @@ import streamlit as st
 import time
 from openai import OpenAI
 
-api_key = st.secrets.get("API_KEY", "API key not found")
-assistant_id = st.secrets.get("ASSISTANT_ID", "Assistant ID not found")
+api_key = st.secrets["API_KEY"]
+assistant_id = st.secrets["ASSISTANT_ID"]
 
 print(f"API Key: {api_key[:4]}...{api_key[-4:]}") 
 print(f"Assistant ID: {assistant_id}")
