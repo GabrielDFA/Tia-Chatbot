@@ -1,5 +1,7 @@
+from io import BytesIO
 import streamlit as st
 from PIL import Image
+import requests
 
 def initialize_session_state():
     if 'user_input' not in st.session_state:
@@ -10,7 +12,9 @@ def submit():
     st.session_state.query = ''
 
 def render_ui():
-    logo = Image.open("D:\d3if45-npr-chatbot-tia\Asset\logo.png")
+    logo_url = "https://github.com/GabrielDFA/Tia-Chatbot/blob/e0f2ec150495c0298da9b9e9ec1f50a71e41333b/Asset/logo.png?raw=true"
+    response = requests.get(logo_url)
+    logo = Image.open(BytesIO(response.content))
     col1, col2 = st.columns([1, 7])
     with col1:
         st.image(logo, width=80)
