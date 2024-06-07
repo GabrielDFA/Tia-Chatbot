@@ -1,13 +1,7 @@
 import os
 import streamlit as st
 import time
-import dotenv
 from openai import OpenAI
-
-dotenv.load_dotenv()
-
-st.secrets["API_KEY"] = os.getenv("API_KEY")
-st.secrets["ASSISTANT_ID"] = os.getenv("ASSISTANT_ID")
 
 api_key = st.secrets["API_KEY"]
 assistant_id = st.secrets["ASSISTANT_ID"]
