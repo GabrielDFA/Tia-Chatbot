@@ -14,6 +14,7 @@ def submit():
 def render_ui():
     logo_url = "https://github.com/GabrielDFA/Tia-Chatbot/blob/e0f2ec150495c0298da9b9e9ec1f50a71e41333b/Asset/logo.png?raw=true"
     response = requests.get(logo_url)
+    logo = Image.open(BytesIO(response.content))
     col1, col2 = st.columns([1, 7])
     with col1:
         st.image(logo, width=80)
