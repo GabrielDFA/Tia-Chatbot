@@ -5,21 +5,11 @@ from openai import OpenAI
 api_key = st.secrets["API_KEY"]
 assistant_id = st.secrets["ASSISTANT_ID"]
 
-print(f"API Key: {api_key[:4]}...{api_key[-4:]}") 
-print(f"Assistant ID: {assistant_id}")
-
 def load_openai_client_and_assistant():
-    try:
-        client = OpenAI(api_key=api_key)
-        print("OpenAI client initialized successfully")
-        my_assistant = client.beta.assistants.retrieve(assistant_id)
-        print("Assistant retrieved successfully")
-        thread = client.beta.threads.create()
-        print("Thread created successfully")
-        return client, my_assistant, thread
-    except Exception as e:
-        print(f"Error initializing OpenAI client: {e}")
-        raise
+    client = OpenAI(api_key=api_key)
+    my_assistant = client.beta.assistants.retrieve(assistant_id)
+    thread = client.beta.threads.create()
+    return client, my_assistant, thread
 
 def wait_on_run(client, run, thread):
     while run.status == "queued" or run.status == "in_progress":
