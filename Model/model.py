@@ -1,12 +1,9 @@
-import os
+import streamlit as st
 import time
-import dotenv
 from openai import OpenAI
 
-dotenv.load_dotenv()
-
-api_key = os.getenv("API_KEY")
-assistant_id = os.getenv("ASSISTANT_ID")
+api_key = st.secrets["API_KEY"]
+assistant_id = st.secrets["ASSISTANT_ID"]
 
 def load_openai_client_and_assistant():
     client = OpenAI(api_key=api_key)
