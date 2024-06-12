@@ -19,7 +19,7 @@ def render_ui():
     with col1:
         st.image(logo, width=80)
     with col2:
-        st.title("Tanya TIA 👋")
+        st.subheader("Tanya TIA - Pemrograman Berbasis Objek 👋")
 
     st.write("TIA - Tel-U Interactive AI")
 
