@@ -27,7 +27,7 @@ def render_ui():
 
     user_input = st.session_state.user_input
 
-    st.write("You Entered...", user_input)
+    st.write("Kamu Memasukkan...", user_input)
 
     return user_input
 
