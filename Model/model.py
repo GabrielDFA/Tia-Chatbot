@@ -34,4 +34,10 @@ def get_assistant_response(client, assistant_thread, user_input=""):
     messages = client.beta.threads.messages.list(
         thread_id=assistant_thread.id, order="asc", after=message.id
     )
-    return messages.data[0].content[0].text.value
+    
+    # Check if messages are present and structured as expected
+    if messages.data and messages.data[0].content and messages.data[0].content[0].text:
+        return messages.data[0].content[0].text.value
+    else:
+        return "Maaf, sepertinya materi yang kamu tanyakan bukan pada mata kuliah ini."
+
