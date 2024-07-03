@@ -39,5 +39,5 @@ def get_assistant_response(client, assistant_thread, user_input=""):
     if messages.data and messages.data[0].content and messages.data[0].content[0].text:
         return messages.data[0].content[0].text.value
     else:
-        return "Maaf, sepertinya materi yang kamu tanyakan bukan pada mata kuliah ini."
+        return "Maaf, sepertinya materi yang kamu tanyakan tidak ada pada mata kuliah ini."
 
