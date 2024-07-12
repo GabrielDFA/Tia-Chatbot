@@ -21,22 +21,30 @@ def wait_on_run(client, run, thread):
     return run
 
 def get_assistant_response(client, assistant_thread, user_input=""):
-    message = client.beta.threads.messages.create(
-        thread_id=assistant_thread.id,
-        role="user",
-        content=user_input,
-    )
-    run = client.beta.threads.runs.create(
-        thread_id=assistant_thread.id,
-        assistant_id=assistant_id,
-    )
-    run = wait_on_run(client, run, assistant_thread)
-    messages = client.beta.threads.messages.list(
-        thread_id=assistant_thread.id, order="asc", after=message.id
-    )
-    
-    # Check if messages are present and structured as expected
-    if messages.data and messages.data[0].content and messages.data[0].content[0].text:
-        return messages.data[0].content[0].text.value
-    else:
-        return "Maaf, sepertinya materi yang kamu tanyakan tidak ada pada mata kuliah ini."
+    try:
+        message = client.beta.threads.messages.create(
+            thread_id=assistant_thread.id,
+            role="user",
+            content=user_input,
+        )
+        run = client.beta.threads.runs.create(
+            thread_id=assistant_thread.id,
+            assistant_id=assistant_id,
+        )
+        run = wait_on_run(client, run, assistant_thread)
+        messages = client.beta.threads.messages.list(
+            thread_id=assistant_thread.id, order="asc", after=message.id
+        )
+        
+        # Check if messages are present and structured as expected
+        if messages.data and messages.data[0].content and messages.data[0].content[0].text:
+            return messages.data[0].content[0].text.value
+        else:
+            return "Maaf, sepertinya materi yang kamu tanyakan tidak ada pada mata kuliah ini."
+    except Exception as e:
+        if 'error' in str(e):
+            st.error("Terjadi kesalahan pada server. Silakan coba lagi nanti.")
+            return "Terjadi kesalahan pada server. Silakan coba lagi nanti."
+        else:
+            st.error("Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti.")
+            return "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti."
