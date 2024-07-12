@@ -1,7 +1,7 @@
+
 import time
 from openai import OpenAI
 import streamlit as st
-from openai.error import OpenAIError, InvalidRequestError, APIError
 
 api_key = st.secrets["API_KEY"]
 assistant_id = st.secrets["ASSISTANT_ID"]
@@ -42,15 +42,6 @@ def get_assistant_response(client, assistant_thread, user_input=""):
             return messages.data[0].content[0].text.value
         else:
             return "Maaf, sepertinya materi yang kamu tanyakan tidak ada pada mata kuliah ini."
-    except InvalidRequestError as e:
-        st.error(f"Invalid request error: {e}")
-        return "Terjadi kesalahan pada permintaan. Mohon cek kembali input Anda."
-    except APIError as e:
-        st.error(f"API error: {e}")
-        return "Terjadi kesalahan pada API. Silakan coba lagi nanti."
-    except OpenAIError as e:
-        st.error(f"OpenAI error: {e}")
-        return "Terjadi kesalahan pada server. Silakan coba lagi nanti."
     except Exception as e:
         st.error(f"Unexpected error: {e}")
         return "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti."
