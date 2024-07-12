@@ -1,6 +1,8 @@
+model.py
 import time
 from openai import OpenAI
 import streamlit as st
+from openai.error import OpenAIError, InvalidRequestError, APIError
 
 api_key = st.secrets["API_KEY"]
 assistant_id = st.secrets["ASSISTANT_ID"]
@@ -21,25 +23,26 @@ def wait_on_run(client, run, thread):
     return run
 
 def get_assistant_response(client, assistant_thread, user_input=""):
-    message = client.beta.threads.messages.create(
-        thread_id=assistant_thread.id,
-        role="user",
-        content=user_input,
-    )
-    run = client.beta.threads.runs.create(
-        thread_id=assistant_thread.id,
-        assistant_id=assistant_id,
-    )
-    run = wait_on_run(client, run, assistant_thread)
-    messages = client.beta.threads.messages.list(
-        thread_id=assistant_thread.id, order="asc", after=message.id
-    )
-    
-    # Check if messages are present and structured as expected
-    if messages.data and messages.data[0].content and messages.data[0].content[0].text:
-        return messages.data[0].content[0].text.value
-    else:
-        return "Maaf, sepertinya materi yang kamu tanyakan tidak ada pada mata kuliah ini."
+    try:
+        message = client.beta.threads.messages.create(
+            thread_id=assistant_thread.id,
+            role="user",
+            content=user_input,
+        )
+        run = client.beta.threads.runs.create(
+            thread_id=assistant_thread.id,
+            assistant_id=assistant_id,
+        )
+        run = wait_on_run(client, run, assistant_thread)
+        messages = client.beta.threads.messages.list(
+            thread_id=assistant_thread.id, order="asc", after=message.id
+        )
+        
+        # Check if messages are present and structured as expected
+        if messages.data and messages.data[0].content and messages.data[0].content[0].text:
+            return messages.data[0].content[0].text.value
+        else:
+            return "Maaf, sepertinya materi yang kamu tanyakan tidak ada pada mata kuliah ini."
     except InvalidRequestError as e:
         st.error(f"Invalid request error: {e}")
         return "Terjadi kesalahan pada permintaan. Mohon cek kembali input Anda."
@@ -52,5 +55,3 @@ def get_assistant_response(client, assistant_thread, user_input=""):
     except Exception as e:
         st.error(f"Unexpected error: {e}")
         return "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti."
-    
-
