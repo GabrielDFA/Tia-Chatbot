@@ -1,4 +1,3 @@
-
 import time
 from openai import OpenAI
 import streamlit as st
@@ -43,5 +42,9 @@ def get_assistant_response(client, assistant_thread, user_input=""):
         else:
             return "Maaf, sepertinya materi yang kamu tanyakan tidak ada pada mata kuliah ini."
     except Exception as e:
-        st.error(f"Unexpected error: {e}")
-        return "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti."
+        if 'error' in str(e):
+            st.error("Terjadi kesalahan pada server. Silakan coba lagi nanti.")
+            return "Terjadi kesalahan pada server. Silakan coba lagi nanti."
+        else:
+            st.error("Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti.")
+            return "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti."
