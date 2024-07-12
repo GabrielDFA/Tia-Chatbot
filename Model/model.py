@@ -1,4 +1,3 @@
-model.py
 import time
 from openai import OpenAI
 import streamlit as st
